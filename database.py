@@ -1,20 +1,26 @@
 import psycopg2
+import os
+from dotenv import find_dotenv, load_dotenv
 
-hostname = 'localhost'
-database_name = 'Sukupuuohjelma'
-username = 'eetu'
-password = '1234'
-port = 5432
+dotenv_path = find_dotenv()
+load_dotenv(dotenv_path)
+
+HOSTNAME = os.getenv("HOSTNAME")
+DATABASE_NAME = os.getenv("DATABASE_NAME")
+USERNAME = os.getenv("USERNAME")
+PASSWORD = os.getenv("PASSWORD")
+PORT = os.getenv("PORT")
+
 conn = None
 cur = None
 
 try:
     conn = psycopg2.connect(
-        host = hostname,
-        dbname = database_name,
-        user = username,
-        password = password,
-        port = port
+        host = HOSTNAME,
+        dbname = DATABASE_NAME,
+        user = USERNAME,
+        password = PASSWORD,
+        port = PORT
     )
 
     cur = conn.cursor()
