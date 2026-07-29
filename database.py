@@ -2,7 +2,7 @@ import psycopg2
 
 hostname = 'localhost'
 database_name = 'Sukupuuohjelma'
-username = 'postgres'
+username = 'eetu'
 password = '1234'
 port = 5432
 
