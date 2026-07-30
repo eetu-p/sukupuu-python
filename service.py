@@ -32,5 +32,6 @@ def add_person(given_name, last_name, date_of_birth, date_of_death):
         date_of_birth, 
         date_of_death
     )
-        
-    
+
+def fetch_person(id):
+    return database.get_person(id)
