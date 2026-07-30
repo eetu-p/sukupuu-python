@@ -6,16 +6,15 @@ def convert(date: str) -> datetime.date:
     date_obj = datetime.date.strptime(date, format)
     return date_obj
 
-def add_person(
+def process_personal_details(
         given_name: str | None, 
         last_name: str | None,
         date_of_birth: str | None, 
         date_of_death: str | None
-    ) -> int:
-
+    ) -> dict[str, str | datetime.date | None]:
     date_of_birth_obj = None
     date_of_death_obj = None
-
+    
     if given_name is not None and len(given_name) > 128:
         raise ValueError("Given name cannot be longer than 128 characters.")
     if last_name is not None and len(last_name) > 128:
@@ -35,11 +34,33 @@ def add_person(
     ):
         raise ValueError("Date of death cannot be after date of birth.")
 
+    return {
+        "given_name": given_name, 
+        "last_name": last_name, 
+        "date_of_birth": date_of_birth_obj, 
+        "date_of_death": date_of_death_obj
+    }
+
+
+def add_person(
+        given_name: str | None, 
+        last_name: str | None,
+        date_of_birth: str | None, 
+        date_of_death: str | None
+    ) -> int:
+
+    person_details = process_personal_details(
+        given_name,
+        last_name,
+        date_of_birth,
+        date_of_death
+    )
+
     return database.create_person(
-        given_name, 
-        last_name, 
-        date_of_birth_obj, 
-        date_of_death_obj
+        person_details["given_name"], 
+        person_details["last_name"], 
+        person_details["date_of_birth"], 
+        person_details["date_of_death"]
     )
 
 def fetch_person(id: str):
