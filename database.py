@@ -1,4 +1,5 @@
 from connection import get_connection
+import datetime
 
 def create_table():
     conn = get_connection()
@@ -19,11 +20,11 @@ def create_table():
     conn.close()
 
 def create_person(
-        given_name,
-        last_name,
-        date_of_birth,
-        date_of_death
-        ):
+        given_name: str | None,
+        last_name: str | None,
+        date_of_birth: datetime.date | None,
+        date_of_death: datetime.date | None
+        ) -> int:
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute('''
@@ -39,9 +40,15 @@ def create_person(
                 (given_name, last_name, date_of_birth, date_of_death)
             )
 
-            return cur.fetchone()[0]
+            # Pylance antaa "Object of type None is not subscriptable"
+            # varoituksen, jos ennen cur.fetchone()-metodin indeksointia
+            # ei ole varmistettu, että sen arvo ei ole None.
+            person_row = cur.fetchone()
+            if person_row is None:
+                raise RuntimeError("INSERT did not return an ID.")
+            return person_row[0]
 
-def get_person(id):
+def get_person(id: str):
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute('''
@@ -54,7 +61,13 @@ def get_person(id):
 
             return cur.fetchone()
 
-def update_person(id, given_name, last_name, date_of_birth, date_of_death):
+def update_person(
+        id: str, 
+        given_name: str | None, 
+        last_name: str | None, 
+        date_of_birth: str | None, 
+        date_of_death: str | None
+    ):
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute('''
@@ -69,7 +82,7 @@ def update_person(id, given_name, last_name, date_of_birth, date_of_death):
                 (given_name, last_name, date_of_birth, date_of_death, id)
             )
 
-def delete_person(id):
+def delete_person(id: str):
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute('''
