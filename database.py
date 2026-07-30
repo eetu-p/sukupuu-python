@@ -59,7 +59,7 @@ def get_person(id: str):
                     FROM person 
                     WHERE id = %s
                 ''',
-                id
+                (id,)
             )
 
             return cur.fetchone()
@@ -95,5 +95,5 @@ def delete_person(id: str):
                     DELETE FROM person
                     WHERE id = %s
                 ''',
-                id
+                (id,)
             )
