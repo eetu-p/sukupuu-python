@@ -88,3 +88,6 @@ def modify_person(
         person_details["date_of_birth"],
         person_details["date_of_death"]
     )
+
+def remove_person(id: str):
+    return database.delete_person(id)
