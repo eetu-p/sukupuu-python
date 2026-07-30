@@ -68,3 +68,13 @@ def update_person(id, given_name, last_name, date_of_birth, date_of_death):
                 ''',
                 (given_name, last_name, date_of_birth, date_of_death, id)
             )
+
+def delete_person(id):
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute('''
+                    DELETE FROM person
+                    WHERE id = %s
+                ''',
+                id
+            )
