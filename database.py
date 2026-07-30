@@ -53,3 +53,18 @@ def get_person(id):
             )
 
             return cur.fetchone()
+
+def update_person(id, given_name, last_name, date_of_birth, date_of_death):
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute('''
+                    UPDATE person 
+                    SET 
+                        given_name = %s,
+                        last_name = %s,
+                        date_of_birth = %s,
+                        date_of_death = %s
+                    WHERE id = %s;
+                ''',
+                (given_name, last_name, date_of_birth, date_of_death, id)
+            )
