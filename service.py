@@ -65,3 +65,26 @@ def add_person(
 
 def fetch_person(id: str):
     return database.get_person(id)
+
+def modify_person(
+        id: str,
+        given_name: str | None, 
+        last_name: str | None,
+        date_of_birth: str | None, 
+        date_of_death: str | None
+    ):
+
+    person_details = process_personal_details(
+        given_name,
+        last_name,
+        date_of_birth,
+        date_of_death
+    )
+
+    return database.update_person(
+        id,
+        person_details["given_name"],
+        person_details["last_name"],
+        person_details["date_of_birth"],
+        person_details["date_of_death"]
+    )

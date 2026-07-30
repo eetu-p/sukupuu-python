@@ -65,11 +65,14 @@ def get_person(id: str):
             return cur.fetchone()
 
 def update_person(
+        # TODO: given/last_name voivat olla ainoastaan str | None,
+        # date_of_birth/death voivat olla ainoastaan datetime.date | None,
+        # poista turhat tyyppivinkit.
         id: str, 
-        given_name: str | None, 
-        last_name: str | None, 
-        date_of_birth: str | None, 
-        date_of_death: str | None
+        given_name: str | datetime.date | None, 
+        last_name: str | datetime.date | None, 
+        date_of_birth: str | datetime.date | None, 
+        date_of_death: str | datetime.date | None
     ):
     with get_connection() as conn:
         with conn.cursor() as cur:
