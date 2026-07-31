@@ -19,6 +19,20 @@ def create_person_table():
     cur.close()
     conn.close()
 
+def create_family_table():
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS family (
+            id          SMALLSERIAL PRIMARY KEY
+        );
+    ''')
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
 def create_person(
         # TODO: given/last_name voivat olla ainoastaan str | None,
         # date_of_birth/death voivat olla ainoastaan datetime.date | None,
