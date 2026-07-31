@@ -150,6 +150,23 @@ def create_family_table():
     cur.close()
     conn.close()
 
+def create_family() -> int:
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute('''
+                INSERT INTO family
+                DEFAULT VALUES
+                RETURNING id;
+            ''')
+
+            # Pylance antaa "Object of type None is not subscriptable"
+            # varoituksen, jos ennen cur.fetchone()-metodin indeksointia
+            # ei ole varmistettu, että sen arvo ei ole None.
+            family_row = cur.fetchone()
+            if family_row is None:
+                raise RuntimeError("INSERT did not return an ID.")
+            return family_row[0]
+
 def get_all_families():
     with get_connection() as conn:
         with conn.cursor() as cur:
