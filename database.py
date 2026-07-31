@@ -199,3 +199,16 @@ def create_person_family_table():
                     PRIMARY KEY (person_id, family_id)
                 );
             ''')
+
+def create_relationship(person_id: str, family_id: str, role: str):
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute('''
+                    INSERT INTO person_family (
+                        person_id,
+                        family_id,
+                        role
+                    )
+                    VALUES (%s, %s, %s)
+                ''', (person_id, family_id, role)
+            )
