@@ -49,9 +49,7 @@ def add_person(
         last_name: str | None,
         date_of_birth: str | None, 
         date_of_death: str | None,
-        image: str | None,
-        parent_of: str | None,
-        child_of: str | None
+        image: str | None
     ) -> int:
 
     person_details = process_personal_details(
@@ -66,9 +64,7 @@ def add_person(
         person_details["last_name"], 
         person_details["date_of_birth"], 
         person_details["date_of_death"],
-        image,
-        parent_of,
-        child_of
+        image
     )
 
 def fetch_person(id: str):
@@ -80,9 +76,7 @@ def modify_person(
         last_name: str | None,
         date_of_birth: str | None, 
         date_of_death: str | None,
-        image: str | None,
-        parent_of: str | None,
-        child_of: str | None
+        image: str | None
     ):
 
     person_details = process_personal_details(
@@ -98,9 +92,7 @@ def modify_person(
         person_details["last_name"],
         person_details["date_of_birth"],
         person_details["date_of_death"],
-        image,
-        parent_of,
-        child_of
+        image
     )
 
 def remove_person(id: str):

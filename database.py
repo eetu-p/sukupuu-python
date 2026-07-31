@@ -14,9 +14,7 @@ def create_person_table():
             last_name       VARCHAR(128),
             date_of_birth   DATE,
             date_of_death   DATE,
-            image           TEXT,
-            parent_of       SMALLINT references family(id),
-            child_of        SMALLINT references family(id)
+            image           TEXT
         );
     ''')
 
@@ -31,9 +29,7 @@ def create_person(
         last_name: str | datetime.date | None,
         date_of_birth: str | datetime.date | None,
         date_of_death: str | datetime.date | None,
-        image: str | datetime.date | None,
-        parent_of: str | datetime.date | None,
-        child_of: str | datetime.date | None
+        image: str | datetime.date | None
         ) -> int:
     with get_connection() as conn:
         with conn.cursor() as cur:
@@ -43,9 +39,7 @@ def create_person(
                         last_name, 
                         date_of_birth, 
                         date_of_death,
-                        image,
-                        parent_of,
-                        child_of
+                        image
                     )
                     VALUES (%s, %s, %s, %s, %s, %s, %s)
                     RETURNING id;
@@ -55,9 +49,7 @@ def create_person(
                     last_name, 
                     date_of_birth, 
                     date_of_death,
-                    image,
-                    parent_of,
-                    child_of
+                    image
                 )
             )
 
@@ -100,9 +92,7 @@ def update_person(
         last_name: str | datetime.date | None,
         date_of_birth: str | datetime.date | None,
         date_of_death: str | datetime.date | None,
-        image: str | datetime.date | None,
-        parent_of: str | datetime.date | None,
-        child_of: str | datetime.date | None
+        image: str | datetime.date | None
     ):
     with get_connection() as conn:
         with conn.cursor() as cur:
@@ -113,9 +103,7 @@ def update_person(
                         last_name = %s,
                         date_of_birth = %s,
                         date_of_death = %s,
-                        image = %s,
-                        parent_of = %s,
-                        child_of = %s
+                        image = %s
                     WHERE id = %s;
                 ''',
                 (
@@ -124,8 +112,6 @@ def update_person(
                     date_of_birth, 
                     date_of_death,
                     image,
-                    parent_of,
-                    child_of,
                     id
                 )
             )
