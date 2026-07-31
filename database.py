@@ -91,6 +91,16 @@ def get_person(id: str):
 
             return cur.fetchone()
 
+def get_all_persons():
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute('''
+                SELECT *
+                FROM person
+            ''')
+
+            return cur.fetchall()
+
 def update_person(
         # TODO: given/last_name sekä parent/child_of voivat olla ainoastaan
         # str | None, date_of_birth/death voivat olla ainoastaan
