@@ -1,6 +1,8 @@
 from connection import get_connection
 import datetime
 
+##### person-taulukon funktiot ################################################
+
 def create_person_table():
     conn = get_connection()
     cur = conn.cursor()
@@ -14,20 +16,6 @@ def create_person_table():
             date_of_death   DATE,
             parent_of       SMALLINT references family(id),
             child_of        SMALLINT references family(id)
-        );
-    ''')
-
-    conn.commit()
-    cur.close()
-    conn.close()
-
-def create_family_table():
-    conn = get_connection()
-    cur = conn.cursor()
-
-    cur.execute('''
-        CREATE TABLE IF NOT EXISTS family (
-            id          SMALLSERIAL PRIMARY KEY
         );
     ''')
 
@@ -145,3 +133,29 @@ def delete_person(id: str):
                 ''',
                 (id,)
             )
+
+##### family-taulukon funktiot ################################################
+
+def create_family_table():
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS family (
+            id          SMALLSERIAL PRIMARY KEY
+        );
+    ''')
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+def get_all_families():
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute('''
+                SELECT *
+                FROM family
+            ''')
+
+            return cur.fetchall()
