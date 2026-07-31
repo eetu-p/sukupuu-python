@@ -10,8 +10,9 @@ def process_personal_details(
         given_name: str | None, 
         last_name: str | None,
         date_of_birth: str | None, 
-        date_of_death: str | None
+        date_of_death: str | None,
     ) -> dict[str, str | datetime.date | None]:
+
     date_of_birth_obj = None
     date_of_death_obj = None
     
@@ -46,7 +47,9 @@ def add_person(
         given_name: str | None, 
         last_name: str | None,
         date_of_birth: str | None, 
-        date_of_death: str | None
+        date_of_death: str | None,
+        parent_of: str | None,
+        child_of: str | None
     ) -> int:
 
     person_details = process_personal_details(
@@ -60,7 +63,9 @@ def add_person(
         person_details["given_name"], 
         person_details["last_name"], 
         person_details["date_of_birth"], 
-        person_details["date_of_death"]
+        person_details["date_of_death"],
+        parent_of,
+        child_of
     )
 
 def fetch_person(id: str):
@@ -71,7 +76,9 @@ def modify_person(
         given_name: str | None, 
         last_name: str | None,
         date_of_birth: str | None, 
-        date_of_death: str | None
+        date_of_death: str | None,
+        parent_of: str | None,
+        child_of: str | None
     ):
 
     person_details = process_personal_details(
@@ -86,7 +93,9 @@ def modify_person(
         person_details["given_name"],
         person_details["last_name"],
         person_details["date_of_birth"],
-        person_details["date_of_death"]
+        person_details["date_of_death"],
+        parent_of,
+        child_of
     )
 
 def remove_person(id: str):
