@@ -93,6 +93,7 @@ def update_person(
         # TODO: given/last_name sekä parent/child_of voivat olla ainoastaan
         # str | None, date_of_birth/death voivat olla ainoastaan
         # datetime.date | None, poista turhat tyyppivinkit.
+        id: str,
         given_name: str | datetime.date | None,
         last_name: str | datetime.date | None,
         date_of_birth: str | datetime.date | None,
