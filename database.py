@@ -11,7 +11,9 @@ def create_person_table():
             given_name      VARCHAR(128),
             last_name       VARCHAR(128),
             date_of_birth   DATE,
-            date_of_death   DATE
+            date_of_death   DATE,
+            parent_of       SMALLINT references family(id),
+            child_of        SMALLINT references family(id)
         );
     ''')
 
@@ -34,13 +36,15 @@ def create_family_table():
     conn.close()
 
 def create_person(
-        # TODO: given/last_name voivat olla ainoastaan str | None,
-        # date_of_birth/death voivat olla ainoastaan datetime.date | None,
-        # poista turhat tyyppivinkit.
+        # TODO: given/last_name sekä parent/child_of voivat olla ainoastaan
+        # str | None, date_of_birth/death voivat olla ainoastaan
+        # datetime.date | None, poista turhat tyyppivinkit.
         given_name: str | datetime.date | None,
         last_name: str | datetime.date | None,
         date_of_birth: str | datetime.date | None,
-        date_of_death: str | datetime.date | None
+        date_of_death: str | datetime.date | None,
+        parent_of: str | datetime.date | None,
+        child_of: str | datetime.date | None
         ) -> int:
     with get_connection() as conn:
         with conn.cursor() as cur:
@@ -49,12 +53,21 @@ def create_person(
                         given_name, 
                         last_name, 
                         date_of_birth, 
-                        date_of_death
+                        date_of_death,
+                        parent_of,
+                        child_of
                     )
-                    VALUES (%s, %s, %s, %s)
+                    VALUES (%s, %s, %s, %s, %s, %s)
                     RETURNING id;
                 ''',
-                (given_name, last_name, date_of_birth, date_of_death)
+                (
+                    given_name, 
+                    last_name, 
+                    date_of_birth, 
+                    date_of_death,
+                    parent_of,
+                    child_of
+                )
             )
 
             # Pylance antaa "Object of type None is not subscriptable"
@@ -79,14 +92,15 @@ def get_person(id: str):
             return cur.fetchone()
 
 def update_person(
-        # TODO: given/last_name voivat olla ainoastaan str | None,
-        # date_of_birth/death voivat olla ainoastaan datetime.date | None,
-        # poista turhat tyyppivinkit.
-        id: str, 
-        given_name: str | datetime.date | None, 
-        last_name: str | datetime.date | None, 
-        date_of_birth: str | datetime.date | None, 
-        date_of_death: str | datetime.date | None
+        # TODO: given/last_name sekä parent/child_of voivat olla ainoastaan
+        # str | None, date_of_birth/death voivat olla ainoastaan
+        # datetime.date | None, poista turhat tyyppivinkit.
+        given_name: str | datetime.date | None,
+        last_name: str | datetime.date | None,
+        date_of_birth: str | datetime.date | None,
+        date_of_death: str | datetime.date | None,
+        parent_of: str | datetime.date | None,
+        child_of: str | datetime.date | None
     ):
     with get_connection() as conn:
         with conn.cursor() as cur:
@@ -96,10 +110,20 @@ def update_person(
                         given_name = %s,
                         last_name = %s,
                         date_of_birth = %s,
-                        date_of_death = %s
+                        date_of_death = %s,
+                        parent_of = %s,
+                        child_of = %s
                     WHERE id = %s;
                 ''',
-                (given_name, last_name, date_of_birth, date_of_death, id)
+                (
+                    given_name, 
+                    last_name, 
+                    date_of_birth, 
+                    date_of_death,
+                    parent_of,
+                    child_of,
+                    id
+                )
             )
 
 def delete_person(id: str):
