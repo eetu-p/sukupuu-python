@@ -176,3 +176,13 @@ def get_all_families():
             ''')
 
             return cur.fetchall()
+
+def delete_family(id: int):
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute('''
+                    DELETE FROM family
+                    WHERE id = %s
+                ''',
+                (id,)
+            )
