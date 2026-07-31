@@ -14,6 +14,7 @@ def create_person_table():
             last_name       VARCHAR(128),
             date_of_birth   DATE,
             date_of_death   DATE,
+            image           TEXT,
             parent_of       SMALLINT references family(id),
             child_of        SMALLINT references family(id)
         );
@@ -24,13 +25,13 @@ def create_person_table():
     conn.close()
 
 def create_person(
-        # TODO: given/last_name sekä parent/child_of voivat olla ainoastaan
-        # str | None, date_of_birth/death voivat olla ainoastaan
-        # datetime.date | None, poista turhat tyyppivinkit.
+        # TODO: mikään parametreista ei voi olla joko str tai datetime.date,
+        # poista turhat tyyppivinkit.
         given_name: str | datetime.date | None,
         last_name: str | datetime.date | None,
         date_of_birth: str | datetime.date | None,
         date_of_death: str | datetime.date | None,
+        image: str | datetime.date | None,
         parent_of: str | datetime.date | None,
         child_of: str | datetime.date | None
         ) -> int:
@@ -42,10 +43,11 @@ def create_person(
                         last_name, 
                         date_of_birth, 
                         date_of_death,
+                        image,
                         parent_of,
                         child_of
                     )
-                    VALUES (%s, %s, %s, %s, %s, %s)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s)
                     RETURNING id;
                 ''',
                 (
@@ -53,6 +55,7 @@ def create_person(
                     last_name, 
                     date_of_birth, 
                     date_of_death,
+                    image,
                     parent_of,
                     child_of
                 )
@@ -90,14 +93,14 @@ def get_all_persons():
             return cur.fetchall()
 
 def update_person(
-        # TODO: given/last_name sekä parent/child_of voivat olla ainoastaan
-        # str | None, date_of_birth/death voivat olla ainoastaan
-        # datetime.date | None, poista turhat tyyppivinkit.
+        # TODO: mikään parametreista ei voi olla joko str tai datetime.date,
+        # poista turhat tyyppivinkit.
         id: str,
         given_name: str | datetime.date | None,
         last_name: str | datetime.date | None,
         date_of_birth: str | datetime.date | None,
         date_of_death: str | datetime.date | None,
+        image: str | datetime.date | None,
         parent_of: str | datetime.date | None,
         child_of: str | datetime.date | None
     ):
@@ -110,6 +113,7 @@ def update_person(
                         last_name = %s,
                         date_of_birth = %s,
                         date_of_death = %s,
+                        image = %s,
                         parent_of = %s,
                         child_of = %s
                     WHERE id = %s;
@@ -119,6 +123,7 @@ def update_person(
                     last_name, 
                     date_of_birth, 
                     date_of_death,
+                    image,
                     parent_of,
                     child_of,
                     id
