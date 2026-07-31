@@ -1,7 +1,7 @@
 from connection import get_connection
 import datetime
 
-def create_table():
+def create_person_table():
     conn = get_connection()
     cur = conn.cursor()
 
