@@ -42,6 +42,7 @@ def process_personal_details(
         "date_of_death": date_of_death_obj
     }
 
+##### person-funktiot #########################################################
 
 def add_person(
         given_name: str | None, 
@@ -100,3 +101,14 @@ def modify_person(
 
 def remove_person(id: str):
     return database.delete_person(id)
+
+##### family-funktiot #########################################################
+
+def add_family() -> int:
+    return database.create_family()
+
+def fetch_all_families():
+    return database.get_all_families()
+
+def remove_family(id: int):
+    return database.delete_family(id)
