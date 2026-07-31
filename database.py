@@ -212,3 +212,13 @@ def create_relationship(person_id: str, family_id: str, role: str):
                     VALUES (%s, %s, %s)
                 ''', (person_id, family_id, role)
             )
+
+def get_all_relationships():
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute('''
+                SELECT *
+                FROM person_family;
+            ''')
+
+            return cur.fetchall()
