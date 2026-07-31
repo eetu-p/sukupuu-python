@@ -192,3 +192,24 @@ def delete_family(id: int):
                 ''',
                 (id,)
             )
+
+##### person_family-taulukon funktiot #########################################
+
+def create_person_family_table():
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute('''
+                CREATE TABLE IF NOT EXISTS person_family (
+                    person_id   SMALLINT REFERENCES person(id),
+                    family_id   SMALLINT REFERENCES family(id),
+                    role        TEXT 
+                                CONSTRAINT role_type 
+                                CHECK (role IN (
+                                        'parent',
+                                        'child',
+                                        'adopted_child'
+                                    )
+                                ),
+                    PRIMARY KEY (person_id, family_id)
+                );
+            ''')
