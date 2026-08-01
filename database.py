@@ -4,23 +4,18 @@ import datetime
 ##### person-taulukon funktiot ################################################
 
 def create_person_table():
-    conn = get_connection()
-    cur = conn.cursor()
-
-    cur.execute('''
-        CREATE TABLE IF NOT EXISTS person (
-            id              SMALLSERIAL PRIMARY KEY,
-            given_name      VARCHAR(128),
-            last_name       VARCHAR(128),
-            date_of_birth   DATE,
-            date_of_death   DATE,
-            image           TEXT
-        );
-    ''')
-
-    conn.commit()
-    cur.close()
-    conn.close()
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute('''
+                CREATE TABLE IF NOT EXISTS person (
+                    id              SMALLSERIAL PRIMARY KEY,
+                    given_name      VARCHAR(128),
+                    last_name       VARCHAR(128),
+                    date_of_birth   DATE,
+                    date_of_death   DATE,
+                    image           TEXT
+                );
+            ''')
 
 def create_person(
         # TODO: mikään parametreista ei voi olla joko str tai datetime.date,
@@ -129,18 +124,13 @@ def delete_person(id: str):
 ##### family-taulukon funktiot ################################################
 
 def create_family_table():
-    conn = get_connection()
-    cur = conn.cursor()
-
-    cur.execute('''
-        CREATE TABLE IF NOT EXISTS family (
-            id          SMALLSERIAL PRIMARY KEY
-        );
-    ''')
-
-    conn.commit()
-    cur.close()
-    conn.close()
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute('''
+                CREATE TABLE IF NOT EXISTS family (
+                    id          SMALLSERIAL PRIMARY KEY
+                );
+            ''')
 
 def create_family() -> int:
     with get_connection() as conn:
