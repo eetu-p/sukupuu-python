@@ -222,3 +222,13 @@ def get_all_relationships():
             ''')
 
             return cur.fetchall()
+
+def delete_relationship(person_id: str, family_id: str):
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute('''
+                    DELETE FROM person_family
+                    WHERE person_id = %s 
+                    AND family_id = %s;
+                ''', (person_id, family_id)
+            )
