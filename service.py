@@ -70,6 +70,9 @@ def add_person(
 def fetch_person(id: str):
     return database.get_person(id)
 
+def fetch_all_persons():
+    return database.get_all_persons()
+
 def modify_person(
         id: str,
         given_name: str | None, 
@@ -108,3 +111,19 @@ def fetch_all_families():
 
 def remove_family(id: int):
     return database.delete_family(id)
+
+##### person-family-funktiot ##################################################
+
+role_types = ["parent", "child", "adopted_child"]
+
+def add_relationship(person_id: str, family_id: str, role: str):
+    if role not in role_types:
+        raise ValueError("Invalid role.")
+
+    return database.create_relationship(person_id, family_id, role)
+
+def fetch_all_relationships():
+    return database.get_all_relationships()
+
+def remove_relationship(person_id: str, family_id: str):
+    return database.delete_relationship(person_id, family_id)
