@@ -41,7 +41,7 @@ def create_person(
                         date_of_death,
                         image
                     )
-                    VALUES (%s, %s, %s, %s, %s, %s, %s)
+                    VALUES (%s, %s, %s, %s, %s)
                     RETURNING id;
                 ''',
                 (
