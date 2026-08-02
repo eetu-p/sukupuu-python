@@ -1,14 +1,21 @@
+from dataclasses import dataclass
+from datetime import date
+
+@dataclass
 class Person:
-    def __init__(
-            self, 
-            id, 
-            given_name, 
-            last_name, 
-            date_of_birth, 
-            date_of_death
-            ):
-        self.id = id
-        self.given_name = given_name
-        self.last_name = last_name
-        self.date_of_birth = date_of_birth
-        self.date_of_death = date_of_death
+    id: int
+    given_name: str | None
+    last_name: str | None
+    date_of_birth: date | None
+    date_of_death: date | None
+    image: str | None
+
+@dataclass
+class Family:
+    id: int
+
+@dataclass
+class Relationship:
+    person_id: int
+    family_id: int
+    role: str
