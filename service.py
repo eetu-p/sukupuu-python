@@ -38,7 +38,7 @@ def add_person(person: Person) -> int:
 
     return database.create_person(person)
 
-def fetch_person(id: str):
+def fetch_person(id: int):
     return database.get_person(id)
 
 def fetch_all_persons():
@@ -54,7 +54,7 @@ def modify_person(person: Person):
 
     return database.update_person(person)
 
-def remove_person(id: str):
+def remove_person(id: int):
     return database.delete_person(id)
 
 ##### family-funktiot #########################################################
@@ -81,5 +81,5 @@ def add_relationship(relationship: Relationship):
 def fetch_all_relationships():
     return database.get_all_relationships()
 
-def remove_relationship(person_id: str, family_id: str):
+def remove_relationship(person_id: int, family_id: int):
     return database.delete_relationship(person_id, family_id)

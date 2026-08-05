@@ -50,7 +50,7 @@ def create_person(person: Person) -> int:
                 raise RuntimeError("INSERT did not return an ID.")
             return person_row[0]
 
-def get_person(id: str):
+def get_person(id: int):
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute('''
@@ -110,7 +110,7 @@ def update_person(person: Person):
                 )
             )
 
-def delete_person(id: str):
+def delete_person(id: int):
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute('''
@@ -229,7 +229,7 @@ def get_all_relationships() -> list[Relationship]:
 
             return relationships
 
-def delete_relationship(person_id: str, family_id: str):
+def delete_relationship(person_id: int, family_id: int):
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute('''
