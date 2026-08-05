@@ -2,7 +2,7 @@ import graphviz
 import service
 
 def create_graph():
-    dot = graphviz.Digraph(
+    dot = graphviz.Graph(
         "sukupuu", 
         comment = "Minun sukuni",
         node_attr = {
@@ -11,7 +11,6 @@ def create_graph():
         }
     )
 
-    # TODO: Vaihda nämä service-funktiohin
     all_persons = service.fetch_all_persons()
     all_families = service.fetch_all_families()
     all_relationships = service.fetch_all_relationships()
