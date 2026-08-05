@@ -1,5 +1,4 @@
 import graphviz
-import database
 import service
 
 def create_graph():
@@ -13,9 +12,9 @@ def create_graph():
     )
 
     # TODO: Vaihda nämä service-funktiohin
-    all_persons = database.get_all_persons()
-    all_families = database.get_all_families()
-    all_relationships = database.get_all_relationships()
+    all_persons = service.fetch_all_persons()
+    all_families = service.fetch_all_families()
+    all_relationships = service.fetch_all_relationships()
 
     print(all_persons, all_families, all_relationships)
 
