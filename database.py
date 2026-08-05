@@ -1,5 +1,5 @@
 from connection import get_connection
-from models import Person
+from models import Person, Family
 from typing import List
 
 ##### person-taulukon funktiot ################################################
@@ -148,7 +148,7 @@ def create_family() -> int:
                 raise RuntimeError("INSERT did not return an ID.")
             return family_row[0]
 
-def get_all_families():
+def get_all_families() -> list[Family]:
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute('''
@@ -156,7 +156,13 @@ def get_all_families():
                 FROM family
             ''')
 
-            return cur.fetchall()
+            rows = cur.fetchall()
+            families: List[Family] = []
+
+            for row in rows:
+                families.append(Family(row[0]))
+
+            return families
 
 def delete_family(id: int):
     with get_connection() as conn:
