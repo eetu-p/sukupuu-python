@@ -1,5 +1,5 @@
 from connection import get_connection
-from models import Person, Family
+from models import Person, Family, Relationship
 from typing import List
 
 ##### person-taulukon funktiot ################################################
@@ -195,7 +195,7 @@ def create_person_family_table():
                 );
             ''')
 
-def create_relationship(person_id: str, family_id: str, role: str):
+def create_relationship(relationship: Relationship):
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute('''
@@ -205,10 +205,15 @@ def create_relationship(person_id: str, family_id: str, role: str):
                         role
                     )
                     VALUES (%s, %s, %s)
-                ''', (person_id, family_id, role)
+                ''', 
+                (
+                    relationship.person_id, 
+                    relationship.family_id, 
+                    relationship.role
+                )
             )
 
-def get_all_relationships():
+def get_all_relationships() -> list[Relationship]:
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute('''
@@ -216,7 +221,13 @@ def get_all_relationships():
                 FROM person_family;
             ''')
 
-            return cur.fetchall()
+            rows = cur.fetchall()
+            relationships: List[Relationship] = []
+
+            for row in rows:
+                relationships.append(Relationship(row[0], row[1], row[2]))
+
+            return relationships
 
 def delete_relationship(person_id: str, family_id: str):
     with get_connection() as conn:

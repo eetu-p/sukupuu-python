@@ -1,6 +1,6 @@
 import database
 import datetime
-from models import Person
+from models import Person, Relationship
 
 def validate_personal_details(
         given_name: str | None, 
@@ -72,11 +72,11 @@ def remove_family(id: int):
 
 role_types = ["parent", "child", "adopted_child"]
 
-def add_relationship(person_id: str, family_id: str, role: str):
-    if role not in role_types:
+def add_relationship(relationship: Relationship):
+    if relationship.role not in role_types:
         raise ValueError("Invalid role.")
 
-    return database.create_relationship(person_id, family_id, role)
+    return database.create_relationship(relationship)
 
 def fetch_all_relationships():
     return database.get_all_relationships()
