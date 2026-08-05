@@ -3,7 +3,7 @@ from datetime import date
 
 @dataclass
 class Person:
-    id: int
+    id: int | None
     given_name: str | None
     last_name: str | None
     date_of_birth: date | None
@@ -12,7 +12,7 @@ class Person:
 
 @dataclass
 class Family:
-    id: int
+    id: int | None
 
 @dataclass
 class Relationship:
