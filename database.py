@@ -1,5 +1,6 @@
 from connection import get_connection
-import datetime
+from models import Person
+from typing import List
 
 ##### person-taulukon funktiot ################################################
 
@@ -17,15 +18,7 @@ def create_person_table():
                 );
             ''')
 
-def create_person(
-        # TODO: mikään parametreista ei voi olla joko str tai datetime.date,
-        # poista turhat tyyppivinkit.
-        given_name: str | datetime.date | None,
-        last_name: str | datetime.date | None,
-        date_of_birth: str | datetime.date | None,
-        date_of_death: str | datetime.date | None,
-        image: str | datetime.date | None
-        ) -> int:
+def create_person(person: Person) -> int:
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute('''
@@ -40,17 +33,18 @@ def create_person(
                     RETURNING id;
                 ''',
                 (
-                    given_name, 
-                    last_name, 
-                    date_of_birth, 
-                    date_of_death,
-                    image
+                    person.given_name, 
+                    person.last_name, 
+                    person.date_of_birth, 
+                    person.date_of_death,
+                    person.image
                 )
             )
 
             # Pylance antaa "Object of type None is not subscriptable"
             # varoituksen, jos ennen cur.fetchone()-metodin indeksointia
             # ei ole varmistettu, että sen arvo ei ole None.
+            # TODO: uudelleennimeä person_row -> row
             person_row = cur.fetchone()
             if person_row is None:
                 raise RuntimeError("INSERT did not return an ID.")
@@ -67,9 +61,14 @@ def get_person(id: str):
                 (id,)
             )
 
-            return cur.fetchone()
+            row = cur.fetchone()
 
-def get_all_persons():
+            if row is None:
+                return None
+            
+            return Person(row[0], row[1], row[2], row[3], row[4], row[5])
+
+def get_all_persons() -> list[Person]:
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute('''
@@ -77,18 +76,18 @@ def get_all_persons():
                 FROM person
             ''')
 
-            return cur.fetchall()
+            rows = cur.fetchall()
+            persons: List[Person] = []
 
-def update_person(
-        # TODO: mikään parametreista ei voi olla joko str tai datetime.date,
-        # poista turhat tyyppivinkit.
-        id: str,
-        given_name: str | datetime.date | None,
-        last_name: str | datetime.date | None,
-        date_of_birth: str | datetime.date | None,
-        date_of_death: str | datetime.date | None,
-        image: str | datetime.date | None
-    ):
+            for row in rows:
+                persons.append(Person(
+                    row[0], row[1], row[2], row[3], row[4], row[5]
+                ))
+
+            return persons
+
+            
+def update_person(person: Person):
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute('''
@@ -102,12 +101,12 @@ def update_person(
                     WHERE id = %s;
                 ''',
                 (
-                    given_name, 
-                    last_name, 
-                    date_of_birth, 
-                    date_of_death,
-                    image,
-                    id
+                    person.given_name, 
+                    person.last_name, 
+                    person.date_of_birth, 
+                    person.date_of_death,
+                    person.image,
+                    person.id
                 )
             )
 
