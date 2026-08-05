@@ -1,12 +1,12 @@
 import database
-import datetime
+from datetime import date
 from models import Person, Family, Relationship
 
 def validate_personal_details(
         given_name: str | None, 
         last_name: str | None,
-        date_of_birth: datetime.date | None, 
-        date_of_death: datetime.date | None,
+        date_of_birth: date | None, 
+        date_of_death: date | None,
     ):
     
     if given_name is not None and len(given_name) > 128:
@@ -14,10 +14,10 @@ def validate_personal_details(
     if last_name is not None and len(last_name) > 128:
         raise ValueError("Last name cannot be longer than 128 characters.")
     if date_of_birth is not None:
-        if date_of_birth > datetime.date.today():
+        if date_of_birth > date.today():
             raise ValueError("Date of birth cannot be in the future.")
     if date_of_death is not None:
-        if date_of_death > datetime.date.today():
+        if date_of_death > date.today():
             raise ValueError("Date of death cannot be in the future.")
     if (
         date_of_birth is not None
