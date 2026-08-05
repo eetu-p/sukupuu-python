@@ -50,7 +50,7 @@ def create_person(person: Person) -> int:
                 raise RuntimeError("INSERT did not return an ID.")
             return person_row[0]
 
-def get_person(id: int):
+def get_person(id: int) -> Person | None:
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute('''
@@ -195,7 +195,7 @@ def create_person_family_table():
                 );
             ''')
 
-def create_relationship(relationship: Relationship):
+def create_relationship(relationship: Relationship) -> list[int]:
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute('''
@@ -205,6 +205,7 @@ def create_relationship(relationship: Relationship):
                         role
                     )
                     VALUES (%s, %s, %s)
+                    RETURNING person_id, family_id;
                 ''', 
                 (
                     relationship.person_id, 
@@ -212,6 +213,10 @@ def create_relationship(relationship: Relationship):
                     relationship.role
                 )
             )
+            relationship_row = cur.fetchone()
+            if relationship_row is None:
+                raise RuntimeError("INSERT did not return an ID.")
+            return [relationship_row[0], relationship_row[1]]
 
 def get_all_relationships() -> list[Relationship]:
     with get_connection() as conn:
