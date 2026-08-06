@@ -1,8 +1,9 @@
 import graphviz
 import service
-from models import GraphCustomization
+from models import Relationship, GraphCustomization
 
 def create_graph(
+        relationships: list[Relationship],
         file_name: str = "testipuu",
         style: GraphCustomization = GraphCustomization()
 ):
@@ -25,13 +26,7 @@ def create_graph(
         }
     )
 
-    all_persons = service.fetch_all_persons()
-    all_families = service.fetch_all_families()
-    all_relationships = service.fetch_all_relationships()
-
-    print(all_persons, all_families, all_relationships)
-
-    for relationship in all_relationships:
+    for relationship in relationships:
         family_name = "family" + str(relationship.family_id)
         person = service.fetch_person(relationship.person_id)
 
