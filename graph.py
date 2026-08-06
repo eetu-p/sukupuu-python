@@ -47,18 +47,24 @@ def create_graph(
         # varmistaa, että person- ja family-taulukoissa on ne ID:t, jotka
         # person_family-taulukostakin löytyy.
         if person is not None:
-            person_name = ""
+            person_name_display = ""
             if person.given_name is not None and person.last_name is not None:
-                person_name = person.given_name + " " + person.last_name
+                person_name_display = person.given_name+" "+person.last_name
+            elif person.given_name is not None:
+                person_name_display = person.given_name
+            elif person.last_name is not None:
+                person_name_display = person.last_name
 
-            dot.node(person_name, f'''<
+            person_name_internal = "person" + str(person.id)
+
+            dot.node(person_name_internal, f'''<
                 <TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0">
                     <TR>
                         <TD>{f'<IMG SRC="{person.image}"/>' 
                                 if person.image is not None 
                                 else ""}</TD>
                     </TR>
-                    <TR><TD><FONT POINT-SIZE='{style.name_font_size}'>{'<B>' if style.name_font_bold else ""}{person_name}{'</B>' if style.name_font_bold else ""}</FONT></TD></TR>
+                    <TR><TD><FONT POINT-SIZE='{style.name_font_size}'>{'<B>' if style.name_font_bold else ""}{person_name_display}{'</B>' if style.name_font_bold else ""}</FONT></TD></TR>
                     {f'<TR><TD>s. {person.date_of_birth}</TD></TR>'
                         if person.date_of_birth is not None
                         else ""}
@@ -72,8 +78,8 @@ def create_graph(
             >''') 
 
             if relationship.role == "parent":
-                dot.edge(person_name, family_name)
+                dot.edge(person_name_internal, family_name)
             else:
-                dot.edge(family_name, person_name)
+                dot.edge(family_name, person_name_internal)
 
     dot.render(directory="graphviz_output_test")
