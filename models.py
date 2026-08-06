@@ -19,3 +19,22 @@ class Relationship:
     person_id: int
     family_id: int
     role: str
+
+@dataclass
+class GraphCustomization:
+    family_fill_color: str | None = "white"
+    family_font_color: str | None = None
+    family_height: str | None = None
+    family_shape: str | None = "ellipse"
+    family_show_id: bool | None = True
+    family_width: str | None = None
+    fill_color: str | None = "white"
+    font_color: str | None = None
+    font_name: str | None = None
+    font_size: str | None = None
+    height: str | None = None
+    name_font_bold: bool | None = True
+    name_font_size: str | None = "14"
+    shape: str | None = "rectangle"
+    show_id: bool | None = True
+    width: str | None = None
