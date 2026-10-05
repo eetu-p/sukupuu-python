@@ -57,6 +57,14 @@ def create_graph(
 
             person_name_internal = "person" + str(person.id)
 
+            date_of_birth = person.date_of_birth
+            if date_of_birth is not None:
+                date_of_birth = date_of_birth.strftime(style.date_format)
+
+            date_of_death = person.date_of_death
+            if date_of_death is not None:
+                date_of_death = date_of_death.strftime(style.date_format)
+
             dot.node(person_name_internal, f'''<
                 <TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0">
                     <TR>
@@ -65,11 +73,11 @@ def create_graph(
                                 else ""}</TD>
                     </TR>
                     <TR><TD><FONT POINT-SIZE='{style.name_font_size}'>{'<B>' if style.name_font_bold else ""}{person_name_display}{'</B>' if style.name_font_bold else ""}</FONT></TD></TR>
-                    {f'<TR><TD>s. {person.date_of_birth}</TD></TR>'
-                        if person.date_of_birth is not None
+                    {f'<TR><TD>s. {date_of_birth}</TD></TR>'
+                        if date_of_birth is not None
                         else ""}
-                    {f'<TR><TD>k. {person.date_of_death}</TD></TR>'
-                        if person.date_of_death is not None
+                    {f'<TR><TD>k. {date_of_death}</TD></TR>'
+                        if date_of_death is not None
                         else ""}
                     {f'<TR><TD>id: {person.id}</TD></TR>'
                         if style.show_id

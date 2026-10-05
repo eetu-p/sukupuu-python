@@ -22,6 +22,7 @@ class Relationship:
 
 @dataclass
 class GraphCustomization:
+    date_format: str = "%d.%m.%Y"
     family_fill_color: str | None = "white"
     family_font_color: str | None = None
     family_height: str | None = None
