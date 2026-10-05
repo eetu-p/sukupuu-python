@@ -60,7 +60,7 @@ def create_graph(
             dot.node(person_name_internal, f'''<
                 <TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0">
                     <TR>
-                        <TD>{f'<IMG SRC="{person.image}"/>' 
+                        <TD>{f'<IMG SRC="{person.image}" SCALE="1" />' 
                                 if person.image is not None 
                                 else ""}</TD>
                     </TR>
