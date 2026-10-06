@@ -20,6 +20,26 @@ class Relationship:
     family_id: int
     role: str
 
+# Oma Date-luokka luodaan siksi, että Pythonin datetime.date-luokassa päivä ja
+# kuukausi ovat pakollisia. Syntymä- ja kuolinpäivistä ei usein kuitenkaan
+# tiedetä päivää tai kuukautta, tämä luokka soveltuu sellaisiin tapauksiin.
+# Lisäksi myöhemmin ehkä lisätään ominaisuus, jossa syntymä/kuolinajan voi
+# ilmaista vaikkapa aikavälinä (esim. 1932-1934), jolloin itse tehdystä
+# Date-luokasta voi olla hyötyä.
+@dataclass
+class Date:
+    day: int | None
+    month: int | None
+    year: int
+
+    def get_string(self, separator: str = ".") -> str:
+        return (
+            f"{'' if self.day is None else (str(self.day) + separator)}" 
+            f"{'' if self.month is None else (str(self.month) + separator)}"
+            f"{self.year}"
+        )
+        
+
 @dataclass
 class GraphCustomization:
     date_format: str = "%d.%m.%Y"
